@@ -60,7 +60,7 @@ public class PlayerManager : MonoBehaviour
 
         //  Dodanie zarządcy i przydzielenie źródła.
         var pim = player.AddComponent<PlayerInputMenager>();
-        pim.InputSource = Input.GetJoystickNames()[0] != "" ? _inputSources[_playersList.Count - 1] : InputSource.KeyboardAndMouse;
+        pim.InputSource = Input.GetJoystickNames() == null ? _inputSources[_playersList.Count - 1] : InputSource.KeyboardAndMouse;
     }
 
     /// <summary>
