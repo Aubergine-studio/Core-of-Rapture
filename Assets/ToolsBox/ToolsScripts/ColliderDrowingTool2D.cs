@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Klasa rysująca wskaźniki gizmo, obiektów do których jest
+/// Klasa rysująca wskaźniki gizmo domen kolizji, obiektów do których jest
 /// dołączona.
 /// </summary>
 public class ColliderDrowingTool2D : MonoBehaviour
@@ -20,7 +20,7 @@ public class ColliderDrowingTool2D : MonoBehaviour
     /// <summary>
     /// Metoa rysujaca wskaźniki gizmo na ekranie.
     /// </summary>
-    private void OnDrawGizmos()
+    public void OnDrawGizmos()
     {
         _collider2DList = GetComponents<Collider2D>();
 
@@ -40,6 +40,20 @@ public class ColliderDrowingTool2D : MonoBehaviour
                 var circleCollider2D = c as CircleCollider2D;
                 Gizmos.DrawWireSphere(new Vector3(circleCollider2D.transform.position.x + circleCollider2D.offset.x, circleCollider2D.transform.position.y + circleCollider2D.offset.y, circleCollider2D.transform.position.z), circleCollider2D.radius);
             }
+
+            if (c is PolygonCollider2D)
+            {
+                var polygonCollider2D = c as PolygonCollider2D;
+                var lenght = polygonCollider2D.points.Length;
+
+                Gizmos.DrawLine(transform.TransformPoint(polygonCollider2D.points[lenght - 1]), transform.TransformPoint(polygonCollider2D.points[0]));
+
+                for (var i = 1; i < lenght; i++)
+                {
+                    Gizmos.DrawLine(transform.TransformPoint(polygonCollider2D.points[i - 1]), transform.TransformPoint(polygonCollider2D.points[i]));
+                }
+            }
+
             Gizmos.color = oldCollor;
         }
     }

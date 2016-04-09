@@ -2,25 +2,31 @@
 
 public class PlayerInputMenager : InputMenager
 {
-    
-    public override void Collect()
+    private PlayerPlatformerController2D PlayerPlatformerController2D;
+    private new void Start()
     {
-        _horizontalLeftAnalog = Input.GetAxis("Horizontal"+_inputSorce);
-        _verticalLeftAalog = Input.GetAxis("Vertical" + _inputSorce);
+        base.Start();
+        PlayerPlatformerController2D = (CharacterController as PlayerPlatformerController2D);
     }
 
-    public override void Control()
+    public override void CollectInputs()
     {
-        _character.Move2D(_horizontalLeftAnalog);
+        GamePad.GetInputs();
     }
 
-    void FixedUpdate()
+    public override void ControlPhysicsActions()
     {
-        Collect();
+        PlayerPlatformerController2D.PlatformerMove2D(GamePad.LefAnalog.Reading);
+        //if(GamePad.ActionButtons.ButtonYDown || GamePad.ActionButtons.ButtonXDown || GamePad.ActionButtons.ButtonADown || GamePad.ActionButtons.ButtonBDown)
+        //   Debug.Log("Down");
+
+        //if (GamePad.ActionButtons.ButtonYUp || GamePad.ActionButtons.ButtonXUp || GamePad.ActionButtons.ButtonAUp || GamePad.ActionButtons.ButtonBUp)
+        //    Debug.Log("Up");
+        
+        PlayerPlatformerController2D.Jump(GamePad.ActionButtons.ButtonBDown);
     }
 
-    void Update()
+    public override void ControlActions()
     {
-        Control();
     }
 }
